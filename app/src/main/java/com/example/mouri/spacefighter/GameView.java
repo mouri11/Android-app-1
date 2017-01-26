@@ -9,12 +9,15 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
+import java.util.ResourceBundle;
+import java.util.concurrent.RecursiveAction;
 
 public class GameView extends SurfaceView implements Runnable{
 
@@ -88,8 +91,13 @@ public class GameView extends SurfaceView implements Runnable{
         }
 
         //updating enemy coordinate with respect to player speed
-        for (int i=0;i<enemyCount;i++){
+        for (int i=0;i<enemyCount;i++) {
             enemies[i].update(player.getSpeed());
+            //if collision occurs with player
+            if (Rect.intersects(player.getDetectCollision(), enemies[i].getDetectCollision())) {
+                //moving enemy outside left edge
+                enemies[i].setX(-200);
+            }
         }
     }
 

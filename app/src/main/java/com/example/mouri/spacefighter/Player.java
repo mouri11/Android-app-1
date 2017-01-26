@@ -3,6 +3,7 @@ package com.example.mouri.spacefighter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 
 /**
  * Created by mouri on 21/1/17.
@@ -31,6 +32,9 @@ public class Player {
     private final int MIN_SPEED=-10;
     private final int MAX_SPEED=200;
 
+    //adding rect object
+    public Rect detectCollision;
+
     public Player(Context context, int screenX, int screenY){
         x=75;
         y=250;
@@ -46,6 +50,9 @@ public class Player {
         minY=0;
         //setting boosting to false initially
         boosting=false;
+
+        //initializing rect object
+        detectCollision=new Rect(x,y,bitmap.getWidth(),bitmap.getHeight());
     }
 
     //setting boosting true
@@ -79,11 +86,24 @@ public class Player {
         if(y>maxY){
             y=maxY;
         }
+
+        //adding the top,left,bottom and right of the rect object
+        detectCollision.top=y;
+        detectCollision.left=x;
+        detectCollision.right=x+bitmap.getWidth();
+        detectCollision.bottom=y+bitmap.getHeight();
+
         //updating x coordinate
         //x++;
     }
 
     //getters
+
+    //one more getter for getting rect object
+    public Rect getDetectCollision(){
+        return detectCollision;
+    }
+
     public Bitmap getBitmap(){
         return bitmap;
     }
